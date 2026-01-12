@@ -46,7 +46,7 @@ const projects = [
     desc: "Ongoing development of this portfolio and exploration of scalable RESTful APIs using Node.js and MongoDB.",
     tags: ["React", "Node.js", "Full Stack", "MERN"],
     repoLink: "https://github.com/sam22mutabazi/sam-portifolio-website",
-    liveLink: "",
+    liveLink: "https://sam-portifolio-website-yt48.vercel.app/",
     status: "ongoing"
   }
 ];
