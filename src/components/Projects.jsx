@@ -9,16 +9,16 @@ const projects = [
     desc: "A comprehensive data analytics platform providing visual insights into Rwanda's key sectors. Features interactive charts and data mapping.",
     tags: ["Data Viz", "React", "Python", "Analytics"],
     repoLink: "https://github.com/sam22mutabazi/Rwanda_insight_dashboard",
-    liveLink: null,
+    liveLink: "https://rwandainsightdashboard-bakqlcmcnrxdkaqfwjryeq.streamlit.app/",
     status: "completed"
   },
   {
     id: 2,
     title: "Simple E-commerce",
-    desc: "A fully functional front-end e-commerce store with product filtering, shopping cart functionality, and responsive design.",
+    desc: "(MERN)A fully functional front-end e-commerce store with product filtering, shopping cart functionality, and responsive design.",
     tags: ["React", "Vite", "E-commerce", "Tailwind"],
     repoLink: "https://github.com/sam22mutabazi/simple-e-commerce",
-    liveLink: null,
+    liveLink: "https://simple-e-commerce-muta.vercel.app/",
     status: "completed"
   },
   {
@@ -26,8 +26,8 @@ const projects = [
     title: "Community Digital Literacy Training Dashboard",
     desc: "Engineered a data analytics dashboard using Python to track and visualize digital literacy progress across Rwandan communities.",
     tags: ["Python", "Data Visualization", "Analytics"],
-    repoLink: "https://github.com/sam22mutabazi/DigitalLiteracyDashboard",
-    liveLink: null,
+    repoLink: "https://github.com/sam22mutabazi/Remera_dashboard-",
+    liveLink: "https://muawzzpaxzhhm6rna8qkyw.streamlit.app/",
     status: "completed"
   },
   // --- ONGOING PROJECTS ---
@@ -36,7 +36,7 @@ const projects = [
     title: "Hand Gesture & Voice Recognition Control",
     desc: "Advanced system combining hand gesture tracking and voice command recognition for seamless touchless computer interaction.",
     tags: ["Python", "MediaPipe", "Computer Vision", "Voice AI"],
-    repoLink: "https://github.com/sam22mutabazi/VolumeControl-Mediapipe",
+    repoLink: "https://github.com/sam22mutabazi/Hand-Gesture-Voice-Control",
     liveLink: null,
     status: "ongoing"
   },
@@ -45,8 +45,8 @@ const projects = [
     title: "MERN Stack Portfolio Development",
     desc: "Ongoing development of this portfolio and exploration of scalable RESTful APIs using Node.js and MongoDB.",
     tags: ["React", "Node.js", "Full Stack", "MERN"],
-    repoLink: "https://github.com/sam22mutabazi/My-Portfolio",
-    liveLink: null,
+    repoLink: "https://github.com/sam22mutabazi/sam-portifolio-website",
+    liveLink: "",
     status: "ongoing"
   }
 ];
