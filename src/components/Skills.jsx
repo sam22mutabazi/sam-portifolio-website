@@ -1,9 +1,6 @@
-// src/components/Skills.jsx
-
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 
 const skillData = [
-  // ... (skillData array remains the same) ...
   {
     id: 1, 
     category: "Front-end & Full-stack Development",
@@ -27,46 +24,39 @@ const skillData = [
 ];
 
 function Skills() {
-  // State 1: Controls the visibility of the entire skill category list (the master toggle)
-  const [isListOpen, setIsListOpen] = useState(false); 
+  // Master toggle for the entire section
+  const [isListOpen, setIsListOpen] = useState(true); 
   
-  // State 2: Controls the visibility of the individual skill category content (the sub-toggle)
+  // Controls which specific category is expanded
   const [openCategoryId, setOpenCategoryId] = useState(null);
 
-  // Function for the Main Title click
   const toggleSkillList = () => {
     setIsListOpen(!isListOpen);
-    // Optionally, close all individual categories when the main list closes
-    if (isListOpen) {
-      setOpenCategoryId(null);
-    }
+    if (isListOpen) setOpenCategoryId(null);
   };
 
-  // Function for the Sub Title click (inside the list)
   const toggleCategory = (id) => {
     setOpenCategoryId(currentId => (currentId === id ? null : id));
   };
 
   return (
-    <section id="skills" className="section">
+    <section id="skills" className="section skills-section">
       <div className="container">
         
-        {/* 1. THE MAIN CLICKABLE HEADER */}
+        {/* 1. MASTER HEADER */}
         <div 
           className="skills-main-header" 
           onClick={toggleSkillList}
           role="button"
           aria-expanded={isListOpen}
         >
-          {/* Use the new styling class for the desired appearance */}
           <h2 className="heading skills-main-title">Technical Skills</h2> 
           <span className="toggle-icon-main">{isListOpen ? '▲' : '▼'}</span>
         </div>
         
-        {/* 2. THE TOGGLED CONTENT: The Entire Accordion List */}
+        {/* 2. ACCORDION LIST */}
         {isListOpen && (
           <div className="skills-list-wrapper">
-            
             <div className="skills-accordion">
               {skillData.map((item) => {
                 const isOpen = item.id === openCategoryId;
@@ -74,7 +64,7 @@ function Skills() {
                 return (
                   <div key={item.id} className="skill-toggle-card">
                     
-                    {/* Sub Title Clickable Header (Category Name) */}
+                    {/* Category Title Header */}
                     <div 
                       className="skill-toggle-header" 
                       onClick={() => toggleCategory(item.id)}
@@ -85,12 +75,14 @@ function Skills() {
                       <span className="toggle-icon">{isOpen ? '▲' : '▼'}</span>
                     </div>
 
-                    {/* Sub Title Toggled Content (Skill Pills) */}
+                    {/* Skill Pills Content */}
                     {isOpen && (
                       <div className="skill-toggle-content">
                         <div className="tags-container">
                           {item.skills.map((skill, index) => (
-                            <span key={index} className="skill-pill">{skill}</span>
+                            <span key={index} className="skill-pill">
+                              {skill}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -99,13 +91,11 @@ function Skills() {
                 );
               })}
             </div>
-            
           </div>
         )}
-        
       </div>
     </section>
   );
 }
 
-export default Skills;
+export default memo(Skills);

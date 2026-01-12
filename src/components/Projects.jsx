@@ -1,148 +1,129 @@
-// src/components/Projects.jsx
+import React, { useState, memo } from 'react';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
-import React, { useState, memo } from 'react'; // 👈 IMPORT memo
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'; // 👈 IMPORT ICONS
-
-// Reusing the project data structure from the previous step
 const projects = [
+  // --- COMPLETED PROJECTS ---
   {
-    id: 1, 
-    title: "Hand Gesture Recognition for Volume Control",
-    desc: "Developed a real-time system for desktop volume control using computer vision. Leverages the MediaPipe framework and Dynamic Time Warping (DTW) algorithms for accurate hand gesture detection and seamless integration with the operating system.",
-    tags: ["Python", "MediaPipe", "Computer Vision", "ML", "DTW"],
-    repoLink: "https://github.com/sam22mutabazi/VolumeControl-Mediapipe", // 👈 MUST BE REAL LINK
-    liveLink: null // No live demo for desktop app
+    id: 1,
+    title: "Rwanda Insight Dashboard",
+    desc: "A comprehensive data analytics platform providing visual insights into Rwanda's key sectors. Features interactive charts and data mapping.",
+    tags: ["Data Viz", "React", "Python", "Analytics"],
+    repoLink: "https://github.com/sam22mutabazi/Rwanda_insight_dashboard",
+    liveLink: null,
+    status: "completed"
   },
   {
     id: 2,
-    title: "Community Digital Literacy Training Dashboard",
-    desc: "Engineered a data analytics dashboard using Python to track, visualize, and report on digital literacy training progress across various Rwandan communities, enabling data-driven insights for program improvement.",
-    tags: ["Python", "Data Visualization", "Analytics", "Dashboards"],
-    repoLink: "https://github.com/sam22mutabazi/DigitalLiteracyDashboard",
-    liveLink: null
+    title: "Simple E-commerce",
+    desc: "A fully functional front-end e-commerce store with product filtering, shopping cart functionality, and responsive design.",
+    tags: ["React", "Vite", "E-commerce", "Tailwind"],
+    repoLink: "https://github.com/sam22mutabazi/simple-e-commerce",
+    liveLink: null,
+    status: "completed"
   },
   {
     id: 3,
-    title: "VAPT Scanner for Rukovoditel Platform",
-    desc: "Conducted Vulnerability Assessment and Penetration Testing (VAPT) across multiple Rukovoditel releases, identifying critical security flaws, misconfigurations, and developing proof-of-concept exploits for remediation.",
-    tags: ["Cybersecurity", "VAPT", "Penetration Testing", "Security"],
-    repoLink: "https://github.com/sam22mutabazi/Rukovoditel-VAPT", 
-    liveLink: null
+    title: "Community Digital Literacy Training Dashboard",
+    desc: "Engineered a data analytics dashboard using Python to track and visualize digital literacy progress across Rwandan communities.",
+    tags: ["Python", "Data Visualization", "Analytics"],
+    repoLink: "https://github.com/sam22mutabazi/DigitalLiteracyDashboard",
+    liveLink: null,
+    status: "completed"
   },
+  // --- ONGOING PROJECTS ---
   {
     id: 4,
-    title: "Various Front-End Web Applications",
-    desc: "A collection of diverse smaller projects focusing on modern and responsive user interfaces, demonstrating proficiency in core web technologies and front-end design principles.",
-    tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
-    repoLink: "https://github.com/sam22mutabazi/Web-Applications",
-    liveLink: "https://samuel.dev/web-apps-demo" // Example live demo
+    title: "Hand Gesture & Voice Recognition Control",
+    desc: "Advanced system combining hand gesture tracking and voice command recognition for seamless touchless computer interaction.",
+    tags: ["Python", "MediaPipe", "Computer Vision", "Voice AI"],
+    repoLink: "https://github.com/sam22mutabazi/VolumeControl-Mediapipe",
+    liveLink: null,
+    status: "ongoing"
   },
   {
     id: 5,
-    title: "React & Node.js Development Practice (Portfolio)",
-    desc: "Ongoing development and exploration of full-stack principles using the MERN stack (MongoDB, Express, React, Node.js), focusing on building scalable RESTful APIs and modern single-page applications (including this portfolio).",
+    title: "MERN Stack Portfolio Development",
+    desc: "Ongoing development of this portfolio and exploration of scalable RESTful APIs using Node.js and MongoDB.",
     tags: ["React", "Node.js", "Full Stack", "MERN"],
     repoLink: "https://github.com/sam22mutabazi/My-Portfolio",
-    liveLink: null // Portfolio is the site itself!
+    liveLink: null,
+    status: "ongoing"
   }
 ];
 
 function Projects() {
-  const [isListOpen, setIsListOpen] = useState(true); // 👈 Set to true for better UX initially
+  const [isListOpen, setIsListOpen] = useState(true);
   const [openProjectId, setOpenProjectId] = useState(null);
 
-  const toggleProjectList = () => {
-    setIsListOpen(current => !current);
-    if (isListOpen) {
-      setOpenProjectId(null); // Close all sub-projects when the main list is hidden
-    }
-  };
+  const toggleProjectList = () => setIsListOpen(!isListOpen);
+  const toggleProjectDetails = (id) => setOpenProjectId(openProjectId === id ? null : id);
 
-  const toggleProjectDetails = (id) => {
-    setOpenProjectId(currentId => (currentId === id ? null : id));
+  // Filter projects by status
+  const completedProjects = projects.filter(p => p.status === "completed");
+  const ongoingProjects = projects.filter(p => p.status === "ongoing");
+
+  const renderProjectCard = (project) => {
+    const isProjectOpen = project.id === openProjectId;
+    return (
+      <div key={project.id} className="project-toggle-card">
+        <div 
+          className="project-toggle-header" 
+          onClick={() => toggleProjectDetails(project.id)}
+          role="button"
+        >
+          <h3 className="project-title">
+            {project.title}
+            <span className={`status-badge status-${project.status}`}>
+              {project.status === 'completed' ? 'Done' : 'In Progress'}
+            </span>
+          </h3>
+          <span className="toggle-icon">{isProjectOpen ? '▲' : '▼'}</span>
+        </div>
+
+        {isProjectOpen && (
+          <div className="project-toggle-content">
+            <p>{project.desc}</p>
+            <div className="tags-container">
+              {project.tags.map((tag, index) => (
+                <span key={index} className="skill-pill">{tag}</span>
+              ))}
+            </div>
+            <div className="project-actions" style={{ marginTop: '20px', display: 'flex', gap: '15px' }}>
+              <a href={project.repoLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ padding: '8px 15px' }}>
+                <FaGithub style={{ marginRight: '8px' }} /> View Code
+              </a>
+              {project.liveLink && (
+                <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ padding: '8px 15px' }}>
+                  <FaExternalLinkAlt style={{ marginRight: '8px' }} /> Live Demo
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
-    // 🔑 Use the generic 'section' class + a specific one
     <section id="projects" className="section projects-section">
       <div className="container">
-        
-        {/* 1. THE MAIN CLICKABLE HEADER */}
-        <div 
-          className="projects-main-header" 
-          onClick={toggleProjectList}
-          role="button"
-          aria-expanded={isListOpen}
-        >
+        <div className="projects-main-header" onClick={toggleProjectList} role="button">
           <h2 className="heading projects-main-title">Projects Showcase</h2>
           <span className="toggle-icon-main">{isListOpen ? '▲' : '▼'}</span>
         </div>
         
-        {/* 2. THE TOGGLED CONTENT: The Entire Accordion List */}
         {isListOpen && (
           <div className="projects-list-wrapper">
-            
+            {/* Completed Sector */}
+            <h3 className="project-category-title">✅ Completed Projects</h3>
             <div className="projects-accordion">
-              {projects.map((project) => {
-                const isProjectOpen = project.id === openProjectId;
-                const { title, desc, tags, repoLink, liveLink } = project; // 👈 Destructuring
-                
-                return (
-                  <div key={project.id} className="project-toggle-card">
-                    
-                    {/* Sub Title Clickable Header */}
-                    <div 
-                      className="project-toggle-header" 
-                      onClick={() => toggleProjectDetails(project.id)}
-                      role="button"
-                      aria-expanded={isProjectOpen}
-                    >
-                      <h3 className="project-title">{title}</h3>
-                      <span className="toggle-icon">{isProjectOpen ? '▲' : '▼'}</span>
-                    </div>
+              {completedProjects.map(renderProjectCard)}
+            </div>
 
-                    {/* Sub Title Toggled Content */}
-                    {isProjectOpen && (
-                      <div className="project-toggle-content">
-                        <p>{desc}</p>
-                        
-                        {/* 🔑 ADDED: Technology Tags */}
-                        <div className="tags-container">
-                          {tags.map((tag, index) => (
-                            <span key={index} className="skill-pill">{tag}</span>
-                          ))}
-                        </div>
-                        
-                        {/* 🔑 ADDED: Links/CTAs */}
-                        <div className="project-actions" style={{ marginTop: '20px', display: 'flex', gap: '15px' }}>
-                          {repoLink && (
-                            <a 
-                              href={repoLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="btn btn-primary"
-                              style={{ padding: '8px 15px' }}
-                            >
-                              <FaGithub style={{ marginRight: '8px' }} /> View Code
-                            </a>
-                          )}
-                          {liveLink && (
-                            <a 
-                              href={liveLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="btn btn-secondary"
-                              style={{ padding: '8px 15px' }}
-                            >
-                              <FaExternalLinkAlt style={{ marginRight: '8px' }} /> Live Demo
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+            {/* Ongoing Sector */}
+            <h3 className="project-category-title" style={{ marginTop: '40px' }}>🚀 Ongoing Projects</h3>
+            <div className="projects-accordion">
+              {ongoingProjects.map(renderProjectCard)}
             </div>
           </div>
         )}
@@ -151,4 +132,4 @@ function Projects() {
   );
 }
 
-export default memo(Projects); // 👈 EXPORT with memo
+export default memo(Projects);
