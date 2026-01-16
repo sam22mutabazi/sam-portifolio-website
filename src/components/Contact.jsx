@@ -2,9 +2,10 @@ import React, { useState, memo } from 'react';
 import emailjs from '@emailjs/browser'; 
 import { FaGithub, FaLinkedinIn, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 
-// Your Unique EmailJS IDs
-const SERVICE_ID = "service_pwthix8"; 
-const TEMPLATE_ID = "template_mpdt3aw"; 
+// Using Vite Environment Variables for security
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID; 
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID; 
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 function Contact() {
     const [isOpen, setIsOpen] = useState(true);
@@ -50,8 +51,13 @@ function Contact() {
             setIsSubmitted(false); 
 
             try {
-                // Public Key should be in main.jsx via emailjs.init("YOUR_PUBLIC_KEY")
-                const response = await emailjs.send(SERVICE_ID, TEMPLATE_ID, formData);
+                // Fixed: Added PUBLIC_KEY as the 4th argument to resolve the console error
+                const response = await emailjs.send(
+                    SERVICE_ID, 
+                    TEMPLATE_ID, 
+                    formData, 
+                    PUBLIC_KEY
+                );
 
                 if (response.status === 200) {
                     setIsSubmitted(true);
